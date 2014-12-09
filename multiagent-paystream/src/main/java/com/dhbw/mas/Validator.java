@@ -17,8 +17,8 @@ public class Validator {
 		"./RCP/30/J306_1.RCP"
 	};
 	private static String[] class1payments = {
-		"./Zahlungsströme/30/cf301_1.in",
-		"./Zahlungsströme/30/cf302_1.in"
+		"./ZahlungsstrÃ¶me/30/cf301_1.in",
+		"./ZahlungsstrÃ¶me/30/cf302_1.in"
 	};
 	
 	private static String[] class2instances = {
@@ -36,8 +36,8 @@ public class Validator {
 		"./RCP/60/J606_1.RCP"
 	};
 	private static String[] class2payments = {
-		"./Zahlungsströme/60/cf601_1.in",
-		"./Zahlungsströme/60/cf602_1.in"
+		"./ZahlungsstrÃ¶me/60/cf601_1.in",
+		"./ZahlungsstrÃ¶me/60/cf602_1.in"
 	};
 	
 	private static String[] class3instances = {
@@ -55,8 +55,8 @@ public class Validator {
 		"./RCP/120/X60_1.RCP"
 	};
 	private static String[] class3payments = {
-		"./Zahlungsströme/120/cf1201_1.in",
-		"./Zahlungsströme/120/cf1202_1.in"
+		"./ZahlungsstrÃ¶me/120/cf1201_1.in",
+		"./ZahlungsstrÃ¶me/120/cf1202_1.in"
 	};
 	
 	public static void main(String[] args) throws Exception {
