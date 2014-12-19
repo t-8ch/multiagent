@@ -1,6 +1,6 @@
 package com.dhbw.mas;
 import java.io.BufferedReader;
-import java.io.FileReader;
+import java.io.Reader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,20 +22,20 @@ public class DataSetInstance implements Iterable<Job>,Collection<Job> {
 	 * @param filename
 	 * @throws Exception
 	 */
-	public DataSetInstance(final String instanceFilename) throws Exception {
+	public DataSetInstance(final Reader data, final String instanceFilename) throws Exception {
 		this.instanceFilename = instanceFilename;
-		processInstanceFile(instanceFilename);
+		processInstanceFile(data);
 		validateJobList();
 	}
 
-	private void processInstanceFile(final String filenameInstance) throws Exception, IOException {
+	private void processInstanceFile(final Reader data) throws Exception, IOException {
 		BufferedReader br = null;
 		int durationsum = 0;
 		int jobCount = 0;
 		int ressourceCount = 0;
 		int[] ressourceMax = {};
 		try {
-			br = new BufferedReader(new FileReader(filenameInstance));
+			br = new BufferedReader(data);
 	
 			// Read Headline
 			// Expect Integers two in 8 byte char sequences

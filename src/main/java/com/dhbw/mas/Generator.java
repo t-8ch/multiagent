@@ -61,19 +61,7 @@ public class Generator {
 
 	public static void main(String[] args) {
 		try {
-			new Generator().generate(new DataSetCollection(
-					"./RCP/30/J3010_1.RCP", 
-					"./RCP/30/J3014_1.RCP",
-					"./RCP/30/J3018_1.RCP",
-					"./RCP/30/J302_1.RCP",
-					"./RCP/30/J3022_1.RCP",
-					"./RCP/30/J3026_1.RCP",
-					"./RCP/30/J3030_1.RCP",
-					"./RCP/30/J3034_1.RCP",
-					"./RCP/30/J3038_1.RCP",
-					"./RCP/30/J3042_1.RCP",
-					"./RCP/30/J3046_1.RCP",
-					"./RCP/30/J306_1.RCP"), 
+			new Generator().generate(DataSetCollection.getBuiltinDataSets30(),
 					5, -100, -50, System.getProperty("user.dir"), "cf30");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());

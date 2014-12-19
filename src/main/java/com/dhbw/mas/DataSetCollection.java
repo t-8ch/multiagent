@@ -5,15 +5,75 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.io.InputStreamReader;
 
 public class DataSetCollection {
 	private List<DataSetInstance> instanceList = new ArrayList<DataSetInstance>();
 	private int instanceJobCount = 0;
 	
-	public DataSetCollection(String... instanceFilenames) throws Exception {
-		for(String instanceFilename : instanceFilenames) {
-			instanceList.add(new DataSetInstance(instanceFilename));
+	private static DataSetCollection getBuiltinDataSets(final String subdir, final String builtins[]) throws Exception {
+		List<DataSetInstance> instances = new ArrayList<>();
+
+		for(String builtin: builtins) {
+			instances.add(new DataSetInstance(new InputStreamReader(
+						DataSetCollection.class.getClassLoader().getResourceAsStream("RCP/" + subdir + "/" + builtin + ".RCP")), builtin));
 		}
+		return new DataSetCollection(instances);
+	}
+
+	public static DataSetCollection getBuiltinDataSets30() throws Exception {
+		return getBuiltinDataSets("30", new String[] {
+			"J3010_1",
+			"J3014_1",
+			"J3018_1",
+			"J3022_1",
+			"J3026_1",
+			"J302_1",
+			"J3030_1",
+			"J3034_1",
+			"J3038_1",
+			"J3042_1",
+			"J3046_1",
+			"J306_1",
+		});
+	}
+
+	public static DataSetCollection getBuiltinDataSets60() throws Exception {
+		return getBuiltinDataSets("60", new String[] {
+			"J6010_1",
+			"J6014_1",
+			"J6018_1",
+			"J6022_1",
+			"J6026_1",
+			"J602_1",
+			"J6030_1",
+			"J6034_1",
+			"J6038_1",
+			"J6042_1",
+			"J6046_1",
+			"J606_1",
+		});
+	}
+
+	public static DataSetCollection getBuiltinDataSets120() throws Exception {
+		return getBuiltinDataSets("120", new String[] {
+			"X10_1",
+			"X15_1",
+			"X20_1",
+			"X25_1",
+			"X30_1",
+			"X35_1",
+			"X40_1",
+			"X45_1",
+			"X50_1",
+			"X55_1",
+			"X5_1",
+			"X60_1",
+		});
+	}
+
+	private DataSetCollection(final List<DataSetInstance> instanceList) throws Exception {
+		this.instanceList = instanceList;
 		validateInstances();
 		instanceJobCount = instanceList.get(0).getJobCount();
 	}
