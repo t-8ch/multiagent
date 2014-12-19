@@ -82,12 +82,12 @@ public class PaymentMatrix {
 		return jobAgentMap;
 	}
 	
-	public void writeAgentPaymentValuesToFiles(String directory, String filenamePrefix) throws Exception {
-		if(!new File(directory).isDirectory()) {
+	public void writeAgentPaymentValuesToFiles(File directory, String filenamePrefix) throws Exception {
+		if(!directory.isDirectory()) {
 			throw(new Exception("Given directory string for paystream output is not a folder."));
 		}
 		for(int i = 0; i < getNumAgents(); ++i) {
-			writeAgentPaymentValuesToFile(i, new File(directory).getCanonicalPath() + "/" + filenamePrefix + i + ".in");
+			writeAgentPaymentValuesToFile(i, directory.getCanonicalPath() + "/" + filenamePrefix + i + ".in");
 		}
 	}
 	
