@@ -23,6 +23,8 @@ import org.apache.commons.lang3.StringUtils;
 
 
 public class Generator {
+	private long rngSeed;
+	private Random rng;
 	
 	public void generate(DataSetCollection instances, int numAgents, int minNegativePayment, int maxNegativePayment,
 			File outputDirectory, String paymentFilePrefix) throws Exception {
@@ -34,6 +36,7 @@ public class Generator {
 		
 		new Validator().validate(instances, paymentMatrix);
 		
+		System.out.println("Random seed: " + rngSeed);
 		paymentMatrix.writeAgentPaymentValuesToFiles(outputDirectory, paymentFilePrefix);
 		
 		System.out.println(paymentMatrix);
@@ -50,20 +53,20 @@ public class Generator {
 		}
 		
 		List<Integer> negativeAgentAssignments = new ArrayList<Integer>(agentAssignments.subList(0, numNegativePaymentJobs));
-		Collections.shuffle(negativeAgentAssignments, new Random(System.currentTimeMillis()));
+		Collections.shuffle(negativeAgentAssignments, this.rng);
 		List<Integer> positiveAgentAssignments = new ArrayList<Integer>(agentAssignments.subList(numNegativePaymentJobs, numAgentJobs));
-		Collections.shuffle(positiveAgentAssignments, new Random(System.currentTimeMillis()));
+		Collections.shuffle(positiveAgentAssignments, this.rng);
 		
 		Map<Integer, Double> globalProbabilityMap = instances.getJobProbabilityDistributionInPath(0, instances.getInstanceJobCount() - 1);
 		
 		for(int i = 0; i < negativeAgentAssignments.size(); ++i) {
 			int paymentValue = maxNegativePayment + (int)((1.0 - globalProbabilityMap.get(i + 1)) *
-					(minNegativePayment - maxNegativePayment) * (0.5 + 0.5 * new Random().nextDouble()) );
+					(minNegativePayment - maxNegativePayment) * (0.5 + 0.5 * this.rng.nextDouble()) );
 			paymentMatrix.updatePayment(i + 1, negativeAgentAssignments.get(i), paymentValue);
 		}
 		for(int i = 0; i < positiveAgentAssignments.size(); ++i) {
 			int paymentValue = Math.abs(maxNegativePayment) + Math.abs(minNegativePayment) + (int)(5 * (globalProbabilityMap.get(numNegativePaymentJobs + i + 1)) *
-					Math.abs(maxNegativePayment) * new Random().nextDouble() );
+					Math.abs(maxNegativePayment) * this.rng.nextDouble());
 			paymentMatrix.updatePayment(numNegativePaymentJobs + i + 1, positiveAgentAssignments.get(i), paymentValue);
 		}
 	}
@@ -81,6 +84,11 @@ public class Generator {
 			throw new Exception("Invalid parameter " + name);
 		}
 		return o.intValue();
+	}
+
+	public Generator(long rngSeed) {
+		this.rngSeed = rngSeed;
+		this.rng = new Random(rngSeed);
 	}
 
 	public static void main(String[] args) {
@@ -116,11 +124,15 @@ public class Generator {
 				.withLongOpt("prefix").hasArg()
 				.withDescription("Prefix to use for output files (default: cf<dataset>)")
 				.create('p'));
+		options.addOption(
+				OptionBuilder
+				.withLongOpt("random-seed").hasArg()
+				.withDescription("Seed for the random generator (default: random)")
+				.withType(Number.class).create('r'));
 
 		options.addOption("h", "help", false, "print this message");
 		CommandLineParser parser = new GnuParser();
 		try {
-			// parse the command line arguments
 			CommandLine cmd = parser.parse(options, args);
 
 			if (cmd.hasOption("help")) {
@@ -130,9 +142,11 @@ public class Generator {
 			}
 
 			Integer numAgents, minNegativePayment, maxNegativePayment, datasetNumber;
+			Long randomSeed;
 			String paymentFilePrefix;
 			File outputDirectory;
 			DataSetCollection datasets;
+			long rngSeed;
 
 			datasetNumber = readIntOption(cmd, "dataset");
 			numAgents = readIntOption(cmd, "agents");
@@ -140,9 +154,16 @@ public class Generator {
 			maxNegativePayment = readIntOption(cmd, "max-negative-payment");
 			paymentFilePrefix = cmd.getOptionValue("prefix", "cf" + datasetNumber);
 			outputDirectory = (File)cmd.getParsedOptionValue("output");
+			randomSeed = (Long)cmd.getParsedOptionValue("random-seed");
 
 			if (outputDirectory == null) {
 				outputDirectory = new File(System.getProperty("user.dir"));
+			}
+
+			if (randomSeed == null) {
+				rngSeed = new Random().nextLong();
+			} else {
+				rngSeed = randomSeed.longValue();
 			}
 
 			if (!validDataSets.contains(datasetNumber)) {
@@ -159,7 +180,7 @@ public class Generator {
 				}
 			}
 
-			new Generator().generate(datasets,
+			new Generator(rngSeed).generate(datasets,
 					numAgents, -1 * minNegativePayment,
 					-1 * maxNegativePayment, outputDirectory,
 					paymentFilePrefix);
