@@ -5,6 +5,7 @@ import java.util.Random;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
+import com.beust.jcommander.ParametersDelegate;
 import com.dhbw.mas.DataSetCollection;
 import com.dhbw.mas.Generator;
 
@@ -31,12 +32,12 @@ public class GeneratorCli {
 	@Parameter(names={"--random-seed", "-r"})
 	private long randomSeed = new Random().nextLong();
 	
-	@Parameter(names={"--dataset", "-d"},
-			required=true, converter=DataSetConverter.class,
-			description = "RCP datasets to use either integer or path to directory of datasets")
-	private DataSetCollection datasets;
+	@ParametersDelegate
+	private DataSetParams dsp = new DataSetParams();
 	
 	private void run() throws Exception {
+		DataSetCollection datasets = dsp.datasets;
+
 		String filePrefix = outputFilePrefix + 
 				String.format("%03d", datasets.getInstanceJobCount());
 		
