@@ -18,8 +18,10 @@ public class DotExporter {
 		
 		for(int i = 0; i < instance.getJobCount(); ++i) {
 			String colorcode = "";
+			String shape = "oval";
 			if(paymentMatrix.getAssignedAgentForJob(i) < 0) {
-				colorcode = "gold1";
+				colorcode = "black";
+				shape = "box";
 			} else {
 				int r = colors[paymentMatrix.getAssignedAgentForJob(i)].getRed();
 				int g = colors[paymentMatrix.getAssignedAgentForJob(i)].getGreen();
@@ -27,8 +29,9 @@ public class DotExporter {
 				colorcode = String.format("%f,%f,%f", r / 255.0f, g / 255.0f, b / 255.0f);
 			}
 			
-			output += i + " [label=\"" + i + "(" + paymentMatrix.getPaymentValueForJob(i) + ")" + 
-					"\",color=\"" + colorcode + "\",penwidth=6];\n";
+			output += i + " [label=\"" + i + "(" + paymentMatrix.getPaymentValueForJob(i) + ")\\nAgent " + 
+					paymentMatrix.getAssignedAgentForJob(i) + "\",color=\"" + colorcode + "\",penwidth=6,shape=" +
+					shape + "];\n";
 		}
 		
 		
