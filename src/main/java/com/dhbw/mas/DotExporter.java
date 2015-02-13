@@ -28,7 +28,7 @@ public class DotExporter {
 			}
 			
 			output += i + " [label=\"" + i + "(" + paymentMatrix.getPaymentValueForJob(i) + ")" + 
-					"\",color=" + colorcode + ",penwidth=6];\n";
+					"\",color=\"" + colorcode + "\",penwidth=6];\n";
 		}
 		
 		
