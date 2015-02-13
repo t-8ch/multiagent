@@ -1,9 +1,12 @@
 package com.dhbw.mas;
 
+import java.awt.Color;
+
 public class DotExporter {
 	
 	public static String generateDotRepresentation(DataSetInstance instance, 
 			PaymentMatrix paymentMatrix, String name) {
+		Color[] colors = generateColors(paymentMatrix.getNumAgents());
 		String output = "digraph \"" + name + "\" {\n";
 		
 		for(int i = 0; i < instance.getJobCount(); ++i) {
@@ -18,7 +21,10 @@ public class DotExporter {
 			if(paymentMatrix.getAssignedAgentForJob(i) < 0) {
 				colorcode = "gold1";
 			} else {
-				colorcode = "grey" + (20 + paymentMatrix.getAssignedAgentForJob(i) * 5);
+				int r = colors[paymentMatrix.getAssignedAgentForJob(i)].getRed();
+				int g = colors[paymentMatrix.getAssignedAgentForJob(i)].getGreen();
+				int b = colors[paymentMatrix.getAssignedAgentForJob(i)].getBlue();
+				colorcode = String.format("%f,%f,%f", r / 255, g / 255, b / 255);
 			}
 			
 			output += i + " [label=\"" + i + "(" + paymentMatrix.getPaymentValueForJob(i) + ")" + 
@@ -29,6 +35,14 @@ public class DotExporter {
 		output += "}";
 		
 		return output;
+	}
+	
+	private static Color[] generateColors(int n) {
+		Color[] cols = new Color[n];
+		for(int i = 0; i < n; i++) {
+			cols[i] = Color.getHSBColor((float) i / (float) n, 0.85f, 1.0f);
+		}
+		return cols;
 	}
 	
 }
