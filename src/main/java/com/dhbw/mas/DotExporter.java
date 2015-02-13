@@ -17,21 +17,19 @@ public class DotExporter {
 		}
 		
 		for(int i = 0; i < instance.getJobCount(); ++i) {
-			String colorcode = "";
-			String shape = "oval";
 			if(paymentMatrix.getAssignedAgentForJob(i) < 0) {
-				colorcode = "black";
-				shape = "box";
+				output += i + " [label=\"" + i + "\",penwidth=6,shape=box];\n";
 			} else {
 				int r = colors[paymentMatrix.getAssignedAgentForJob(i)].getRed();
 				int g = colors[paymentMatrix.getAssignedAgentForJob(i)].getGreen();
 				int b = colors[paymentMatrix.getAssignedAgentForJob(i)].getBlue();
-				colorcode = String.format("%f,%f,%f", r / 255.0f, g / 255.0f, b / 255.0f);
+				String colorcode = String.format("%f,%f,%f", r / 255.0f, g / 255.0f, b / 255.0f);
+				
+				output += i + " [label=\"" + i + "(" + paymentMatrix.getPaymentValueForJob(i) + ")\\n" + "Agent " + 
+						paymentMatrix.getAssignedAgentForJob(i) + "\",color=\"" + colorcode + "\",penwidth=6];\n";
 			}
 			
-			output += i + " [label=\"" + i + "(" + paymentMatrix.getPaymentValueForJob(i) + ")\\nAgent " + 
-					paymentMatrix.getAssignedAgentForJob(i) + "\",color=\"" + colorcode + "\",penwidth=6,shape=" +
-					shape + "];\n";
+			
 		}
 		
 		
