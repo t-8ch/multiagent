@@ -8,6 +8,7 @@
     <menu name="Documentation">
       <item name="About" href="about.html" />
       <item name="CashFlows" href="cashflows.html" />
+      <item name="Graph" href="graph.html" />
     </menu>
   </body>
 </project>
