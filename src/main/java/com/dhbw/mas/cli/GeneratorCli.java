@@ -14,11 +14,11 @@ public class GeneratorCli {
 	@Parameter(names={"--help", "-h"}, help = true)
 	private boolean help;
 	
-	@Parameter(names={"--max-negative-payment", "-a"}, required=true)
-	private int maxNegativePayment;
+	@Parameter(names={"--param1", "-a"}, required=true)
+	private int param1;
 
-	@Parameter(names={"--min-negative-payment", "-i"}, required=true)
-	private int minNegativePayment;
+	@Parameter(names={"--param2", "-b"}, required=true)
+	private int param2;
 
 	@Parameter(names={"--agents", "-g"}, required=true)
 	private int agents;
@@ -42,8 +42,8 @@ public class GeneratorCli {
 				String.format("%03d", datasets.getInstanceJobCount());
 		
 			new Generator(randomSeed).generate(datasets,
-					agents, -1 * minNegativePayment,
-					-1 * maxNegativePayment, outputDirectory,
+					agents, -1 * param1,
+					-1 * param2, outputDirectory,
 					filePrefix);
 	}
 	

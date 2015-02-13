@@ -31,7 +31,7 @@ public class Generator {
 
 		System.out.println(paymentMatrix);
 	}
-
+	
 	private void computePaymentMatrix(DataSetCollection instances,
 			int numAgents, int minNegativePayment, int maxNegativePayment,
 			PaymentMatrix paymentMatrix) {
