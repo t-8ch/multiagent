@@ -69,6 +69,10 @@
               <id>validator</id>
             </program>
             <program>
+              <mainClass>com.dhbw.mas.cli.DotExporterCli</mainClass>
+              <id>dotexporter</id>
+            </program>
+            <program>
               <mainClass>com.dhbw.mas.utils.cli.UpdateSiteCashflowTree</mainClass>
               <id>update-site-cashflow-tree</id>
             </program>
