@@ -4,7 +4,7 @@ public class DotExporter {
 	
 	public static String generateDotRepresentation(DataSetInstance instance, 
 			PaymentMatrix paymentMatrix, String name) {
-		String output = "digraph " + name + " {\n";
+		String output = "digraph \"" + name + "\" {\n";
 		
 		for(int i = 0; i < instance.getJobCount(); ++i) {
 			Job currentJob = instance.getJob(i);
@@ -22,7 +22,7 @@ public class DotExporter {
 			}
 			
 			output += i + " [label=\"" + i + "(" + paymentMatrix.getPaymentValueForJob(i) + ")" + 
-					"\",color=" + colorcode + "];\n";
+					"\",color=" + colorcode + ",penwidth=6];\n";
 		}
 		
 		
