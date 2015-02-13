@@ -24,7 +24,7 @@ public class DotExporter {
 				int r = colors[paymentMatrix.getAssignedAgentForJob(i)].getRed();
 				int g = colors[paymentMatrix.getAssignedAgentForJob(i)].getGreen();
 				int b = colors[paymentMatrix.getAssignedAgentForJob(i)].getBlue();
-				colorcode = String.format("%f,%f,%f", r / 255, g / 255, b / 255);
+				colorcode = String.format("%f,%f,%f", r / 255.0f, g / 255.0f, b / 255.0f);
 			}
 			
 			output += i + " [label=\"" + i + "(" + paymentMatrix.getPaymentValueForJob(i) + ")" + 
