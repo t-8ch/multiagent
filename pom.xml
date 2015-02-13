@@ -68,6 +68,10 @@
               <mainClass>com.dhbw.mas.cli.ValidatorCli</mainClass>
               <id>validator</id>
             </program>
+            <program>
+              <mainClass>com.dhbw.mas.utils.cli.UpdateSiteCashflowTree</mainClass>
+              <id>update-site-cashflow-tree</id>
+            </program>
           </programs>
         </configuration>
       </plugin>

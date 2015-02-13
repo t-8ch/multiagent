@@ -44,7 +44,7 @@ public class GeneratorCli {
 		DataSetCollection datasets = dsp.datasets;
 
 		String filePrefix = outputFilePrefix + 
-				String.format("%03d", datasets.getInstanceJobCount());
+				String.format("%03d", datasets.getInstanceJobCount() - 2);
 		
 			new Generator(randomSeed, paymentComputation).generate(datasets,
 					agents, param1, param2, outputDirectory,
@@ -63,5 +63,4 @@ public class GeneratorCli {
 			generator.run();
 		}
 	}
-
 }

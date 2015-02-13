@@ -7,6 +7,7 @@
   <body>
     <menu name="Documentation">
       <item name="About" href="about.html" />
+      <item name="CashFlows" href="cashflows.html" />
     </menu>
   </body>
 </project>
