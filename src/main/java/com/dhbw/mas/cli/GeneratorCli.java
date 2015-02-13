@@ -6,8 +6,10 @@ import java.util.Random;
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParametersDelegate;
+import com.dhbw.mas.AscedingPaymentComputation;
 import com.dhbw.mas.DataSetCollection;
 import com.dhbw.mas.Generator;
+import com.dhbw.mas.IPaymentComputation;
 
 public class GeneratorCli {
 	
@@ -32,6 +34,9 @@ public class GeneratorCli {
 	@Parameter(names={"--random-seed", "-r"})
 	private long randomSeed = new Random().nextLong();
 	
+	@Parameter(names={"--paymentcomputation", "-c"}, converter=PaymentComputationConverter.class)
+	private IPaymentComputation paymentComputation = new AscedingPaymentComputation();
+	
 	@ParametersDelegate
 	private DataSetParams dsp = new DataSetParams();
 	
@@ -41,9 +46,8 @@ public class GeneratorCli {
 		String filePrefix = outputFilePrefix + 
 				String.format("%03d", datasets.getInstanceJobCount());
 		
-			new Generator(randomSeed).generate(datasets,
-					agents, -1 * param1,
-					-1 * param2, outputDirectory,
+			new Generator(randomSeed, paymentComputation).generate(datasets,
+					agents, param1, param2, outputDirectory,
 					filePrefix);
 	}
 	
