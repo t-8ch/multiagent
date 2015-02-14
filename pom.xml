@@ -1,7 +1,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+    http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.dhbw.mas</groupId>
   <artifactId>paymentstreams</artifactId>
@@ -113,6 +113,41 @@
                 <argument>src/site/resources/CashFlows</argument>
                 <argument>--target</argument>
                 <argument>src/site/markdown/cashflows.md</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>gen-dot</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>java</goal>
+            </goals>
+            <configuration>
+              <mainClass>com.dhbw.mas.cli.DotExporterCli</mainClass>
+              <arguments>
+                <argument>--instancefile</argument>
+                <argument>src/main/resources/RCP/30/J3010_1.RCP</argument>
+                <argument>--paymentfiles</argument>
+                <argument>src/main/resources/CashFlows/30/cf301_1.in</argument>
+                <argument>src/main/resources/CashFlows/30/cf302_1.in</argument>
+                <argument>--output-file</argument>
+                <argument>src/site/resources/graph.dot</argument>
+              </arguments>
+            </configuration>
+          </execution>
+          <execution>
+            <id>build-dot</id>
+            <phase>pre-site</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>dot</executable>
+              <arguments>
+                <argument>-Tsvg</argument>
+                <argument>src/site/resources/graph.dot</argument>
+                <argument>-o</argument>
+                <argument>src/site/resources/graph.svg</argument>
               </arguments>
             </configuration>
           </execution>
